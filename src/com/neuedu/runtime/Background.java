@@ -1,13 +1,14 @@
 package com.neuedu.runtime;
 
-import com.neuedu.base.BaesSprite;
+import com.neuedu.base.BaseSprite;
 import com.neuedu.base.Drawable;
 import com.neuedu.base.Moveable;
+import com.neuedu.constant.FrameConstant;
 import com.neuedu.util.ImageMap;
 
 import java.awt.*;
 
-public class Background extends BaesSprite implements Moveable, Drawable {
+public class Background extends BaseSprite implements Moveable, Drawable {
 
 
 
@@ -24,7 +25,7 @@ public class Background extends BaesSprite implements Moveable, Drawable {
 
     @Override
     public void move() {
-        setY(getY()+1);
+        setY(getY()+ FrameConstant.GAME_SPEED);
     }
 
     @Override

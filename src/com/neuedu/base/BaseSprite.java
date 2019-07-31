@@ -1,15 +1,17 @@
 package com.neuedu.base;
 
-public abstract class BaesSprite {
+import java.awt.*;
+
+public abstract class BaseSprite {
     private int x;
     private int y;
 
-    public BaesSprite(int x, int y) {
+    public BaseSprite(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public BaesSprite() {
+    public BaseSprite() {
     }
 
     public void setX(int x) {
@@ -26,5 +28,10 @@ public abstract class BaesSprite {
 
     public int getY() {
         return y;
+    }
+
+
+    public Rectangle getRectangle(){
+        return null;
     }
 }
