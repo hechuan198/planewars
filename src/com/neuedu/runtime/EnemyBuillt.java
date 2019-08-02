@@ -9,7 +9,6 @@ import com.neuedu.util.DataStore;
 import com.neuedu.util.ImageMap;
 
 import java.awt.*;
-import java.util.List;
 
 public class EnemyBuillt extends BaseSprite implements Moveable, Drawable {
 
@@ -30,6 +29,7 @@ public class EnemyBuillt extends BaseSprite implements Moveable, Drawable {
     public void draw(Graphics g) {
         g.drawImage(image,getX(),getY(),image.getWidth(null),image.getHeight(null),null);
         move();
+
     }
 
     @Override
@@ -51,16 +51,7 @@ public class EnemyBuillt extends BaseSprite implements Moveable, Drawable {
         }
     }
 
-    public void collisionTesting(Plane plane){
-        GameFrame gameFrame = DataStore.get("gameframe");
 
-            if (plane.getRectangle().intersects(this.getRectangle())) {
-                gameFrame.gameOver = true;
-                gameFrame.bullitList.remove(this);
-            }
-
-
-    }
 
     @Override
     public Rectangle getRectangle() {

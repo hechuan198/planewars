@@ -25,49 +25,90 @@ public class GameFrame extends Frame {
     //创建我方子弹
     public final List<Bullit> bullitList = new CopyOnWriteArrayList<>();
 
+    // 通关
+    public Win win = new Win();
+
     //创建敌方飞机
     public final List<EnemyPlane> enemyPlaneList = new CopyOnWriteArrayList<>();
 
     //创建敌方子弹
     public final List<EnemyBuillt> enemyBuilltList = new CopyOnWriteArrayList<>();
 
-    // 我方死亡
-    public boolean gameOver = false;
+    // 创建道具
+    public List<Prop> propList = new CopyOnWriteArrayList<>();
+
+    // 创建boss
+    public Boss boss = new Boss();
+
+    // 创建boss子弹集合
+    public List<BossBullit> bossBullitList = new CopyOnWriteArrayList<>();
+
+//    创建游戏结束绘画
+    public GameOver gameOver = new GameOver();
+
 
     //绘画
     @Override
     public void paint(Graphics g) {
             background.draw(g);
-
-            plane.draw(g);
-            plane.collisionTesting(enemyPlaneList);
-
+            if (Plane.hp > 0 ) {
+                plane.draw(g);
+                if (boss.bossHp > 0) {
+                    plane.collisionTesting(enemyPlaneList);
+                    plane.collisionBullitTesting(enemyBuilltList);
+                    plane.collisionPropTesting(propList);
+                    plane.collisionBossBullitTesting(bossBullitList);
+                    plane.collisionBossTesting(boss);
+                }
+            }
 
             for (Bullit bullit : bullitList) {
                 bullit.draw(g);
+//                bullit.collisionBullitTesting(enemyBuilltList);
+                bullit.collisionTesting(enemyPlaneList);
             }
+//            bigBullit.draw(g);
 
             for (EnemyPlane enemyPlane : enemyPlaneList) {
                 enemyPlane.draw(g);
+
             }
             for (EnemyBuillt enemyBuillt : enemyBuilltList) {
                 enemyBuillt.draw(g);
             }
-
-            for (Bullit bullit : bullitList) {
-                bullit.collisionTesting(enemyPlaneList);
-                bullit.collisionBullitTesting(enemyBuilltList);
+            if (boss.bossHp != 0) {
+                boss.draw(g);
+                boss.collisionBullitTesting(bullitList);
             }
+        for (BossBullit bossBullit : bossBullitList) {
+            bossBullit.draw(g);
+        }
+        for (Prop prop : propList) {
+            prop.draw(g);
+        }
+        if (Plane.hp <= 0) {
+            gameOver.draw(g);
+        }
+        if (boss.bossHp == 0){
+            win.draw(g);
+        }
 
-            for (EnemyBuillt enemyBuillt : enemyBuilltList) {
-                enemyBuillt.collisionTesting(plane);
-            }
 
 
 
+
+
+
+            g.setFont(new Font("楷体",Font.BOLD,25 ));
             g.setColor(Color.GREEN);
-            g.drawString("击毁敌军数：" + Count.getCount(),200,200);
-        addPlane();
+            g.drawString("得分：" + Count.getCount(),100,100);
+            g.drawString("血量："+ plane.hp,100,130);
+            g.drawString("BOSS血量："+ boss.bossHp,100,160);
+
+            //随机添加飞机
+            addPlane();
+        //添加道具
+        addHpProp();
 
     }
 
@@ -90,6 +131,7 @@ public class GameFrame extends Frame {
             }
         });
 
+        // 键盘监听器
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -148,11 +190,16 @@ public class GameFrame extends Frame {
 
     public Random random = new Random();
 
+
+
     // 添加敌方飞机
     public void addPlane(){
+        //飞机编号
+        int enemyPlaneId = random.nextInt(2) + 1;
         GameFrame gameFrame = DataStore.get("gameframe");
-        while ( random.nextInt(1000) > 985){
-            gameFrame.enemyPlaneList.add(new EnemyPlane(random.nextInt(800 - ImageMap.get("ep1").getWidth(null)),-ImageMap.get("ep1").getHeight(null), ImageMap.get("ep1")));
+        if ( random.nextInt(1000) > 985){
+            gameFrame.enemyPlaneList.add(new EnemyPlane(random.nextInt(800 - ImageMap.get("ep"+enemyPlaneId).getWidth(null)),
+                    -ImageMap.get("ep"+enemyPlaneId).getHeight(null), ImageMap.get("ep"+enemyPlaneId),enemyPlaneId));
         }
 
 
@@ -160,6 +207,14 @@ public class GameFrame extends Frame {
 
     }
 
+    //添加道具
+    public void addHpProp(){
+        if (Bullit.addHp == true){
 
+            propList.add(new Prop(Bullit.enemyX,Bullit.enemyY,1));
+            Bullit.addHp = false;
+
+        }
+    }
 
 }
