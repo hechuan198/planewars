@@ -24,7 +24,7 @@ public class Boss extends BaseSprite implements Moveable, Drawable {
 
 
     public Boss() {
-        super(250,-6000);
+        super(250,6000);
         imageList.add(ImageMap.get("boss_A_1"));
         imageList.add(ImageMap.get("boss_A_2"));
         imageList.add(ImageMap.get("boss_A_3"));
@@ -50,15 +50,23 @@ public class Boss extends BaseSprite implements Moveable, Drawable {
 
     }
 
-    Random random = new Random();
+    int fire = 0;
+    int type = 1;
 
     public void fire(){
-        if (getY() > 100) {
-            if (random.nextInt(1000) > 990) {
+        if (getY() >= 100) {
+            fire++;
+            if (fire == 10) {
                 GameFrame gameFrame = DataStore.get("gameframe");
-                gameFrame.bossBullitList.add(new BossBullit(getX() + 50 + (imageList.get(0).getWidth(null) - ImageMap.get("bossb_1").getWidth(null)) / 2,
-                        getY() + imageList.get(0).getHeight(null)));
+                gameFrame.bossBullitList.add(new BossBullit(getX() + (imageList.get(0).getWidth(null) - ImageMap.get("bossb_1").getWidth(null)) / 2,
+                        getY() + imageList.get(0).getHeight(null)/2 - 40,type++));
+                if (type > 8){
+                    type = 1;
+                }
+                fire = 0;
             }
+
+
         }
 
     }

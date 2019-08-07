@@ -7,10 +7,7 @@ import com.neuedu.util.DataStore;
 import com.neuedu.util.ImageMap;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,8 +22,9 @@ public class GameFrame extends Frame {
     //创建我方子弹
     public final List<Bullit> bullitList = new CopyOnWriteArrayList<>();
 
-    // 通关
+    //创建win
     public Win win = new Win();
+
 
     //创建敌方飞机
     public final List<EnemyPlane> enemyPlaneList = new CopyOnWriteArrayList<>();
@@ -46,12 +44,29 @@ public class GameFrame extends Frame {
 //    创建游戏结束绘画
     public GameOver gameOver = new GameOver();
 
+    // Boss 警告
+    public Warning warning = new Warning();
+
+    //开始
+    public Start start = new Start();
+
+    // 创建开始背景
+    public BeginBG beginBG = new BeginBG();
+
+    public boolean begin;
+
 
     //绘画
     @Override
     public void paint(Graphics g) {
+        if (begin == false){
+            beginBG.draw(g);
+            g.setFont(new Font("黑体",Font.BOLD,50));
+            g.setColor(Color.MAGENTA);
+            g.drawString("开始游戏",FrameConstant.FRANE_WIDTH/2-70,FrameConstant.FRANE_HEIGHT/2+200);
+        }else {
             background.draw(g);
-            if (Plane.hp > 0 ) {
+            if (Plane.hp > 0) {
                 plane.draw(g);
                 if (boss.bossHp > 0) {
                     plane.collisionTesting(enemyPlaneList);
@@ -76,39 +91,46 @@ public class GameFrame extends Frame {
             for (EnemyBuillt enemyBuillt : enemyBuilltList) {
                 enemyBuillt.draw(g);
             }
+            for (BossBullit bossBullit : bossBullitList) {
+                bossBullit.draw(g);
+            }
             if (boss.bossHp != 0) {
                 boss.draw(g);
                 boss.collisionBullitTesting(bullitList);
             }
-        for (BossBullit bossBullit : bossBullitList) {
-            bossBullit.draw(g);
-        }
-        for (Prop prop : propList) {
-            prop.draw(g);
-        }
-        if (Plane.hp <= 0) {
-            gameOver.draw(g);
-        }
-        if (boss.bossHp == 0){
-            win.draw(g);
-        }
+            for (Prop prop : propList) {
+                prop.draw(g);
+            }
+            if (Plane.hp <= 0) {
+                gameOver.draw(g);
+            }
+            if (boss.bossHp == 0) {
+                win.draw(g);
+            }
 
+            if (boss.getY() > -750 && boss.getY() < -300) {
+                warning.draw(g);
+            }
 
+            if (start.star == true) {
+                start.draw(g);
+            }
 
-
-
-
-
-            g.setFont(new Font("楷体",Font.BOLD,25 ));
-            g.setColor(Color.GREEN);
-            g.drawString("得分：" + Count.getCount(),100,100);
-            g.drawString("血量："+ plane.hp,100,130);
-            g.drawString("BOSS血量："+ boss.bossHp,100,160);
 
             //随机添加飞机
-            addPlane();
-        //添加道具
-        addHpProp();
+            if (!(boss.getY() >= 0)) {
+                addPlane();
+            }
+            //添加道具
+            addHpProp();
+
+
+            g.setFont(new Font("楷体", Font.BOLD, 25));
+            g.setColor(Color.GREEN);
+            g.drawString("得分：" + Count.getCount(), 100, 100);
+            g.drawString("血量：" + plane.hp, 100, 130);
+            g.drawString("BOSS血量：" + boss.bossHp, 100, 160);
+        }
 
     }
 
@@ -137,7 +159,11 @@ public class GameFrame extends Frame {
             public void keyPressed(KeyEvent e) {
                 plane.keyPressed(e);
 
+
+
             }
+
+
 
             @Override
             public void keyReleased(KeyEvent e) {
@@ -146,10 +172,23 @@ public class GameFrame extends Frame {
 
             }
         });
+        // 鼠标监听 336   536
+        addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.getX() >= 336 && e.getX() <= 538 && e.getY() >= 511 && e.getY() <= 555 ){
+                    begin = true;
+                }
+
+
+            }
+        });
 
 
         //开启窗口
         setVisible(true);
+
 
 
 
@@ -175,8 +214,11 @@ public class GameFrame extends Frame {
         }.start();
 
 
+
     }
 
+
+    //双缓冲解决闪屏
     private Image offScreenImage = null;//创建缓冲区
     public void update(Graphics g) {
         if(offScreenImage == null) {
@@ -210,10 +252,10 @@ public class GameFrame extends Frame {
     //添加道具
     public void addHpProp(){
         if (Bullit.addHp == true){
-
-            propList.add(new Prop(Bullit.enemyX,Bullit.enemyY,1));
-            Bullit.addHp = false;
-
+            if (random.nextInt(100) > 90) {
+                propList.add(new Prop(Bullit.enemyX, Bullit.enemyY, 1));
+            }
+                Bullit.addHp = false;
         }
     }
 

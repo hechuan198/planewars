@@ -73,6 +73,37 @@ public class ImageMap {
         map.put("bossb_5",ImageUtil.getImage("com/neuedu/imgs/bullit/bossb_5.png"));
         map.put("bossb_6",ImageUtil.getImage("com/neuedu/imgs/bullit/bossb_6.png"));
 
+        map.put("wraning1",ImageUtil.getImage("com/neuedu/imgs/warning/1.png"));
+        map.put("wraning2",ImageUtil.getImage("com/neuedu/imgs/warning/2.png"));
+        map.put("wraning3",ImageUtil.getImage("com/neuedu/imgs/warning/3.png"));
+        map.put("wraning4",ImageUtil.getImage("com/neuedu/imgs/warning/4.png"));
+        map.put("wraning5",ImageUtil.getImage("com/neuedu/imgs/warning/5.png"));
+        map.put("wraning6",ImageUtil.getImage("com/neuedu/imgs/warning/6.png"));
+        map.put("wraning7",ImageUtil.getImage("com/neuedu/imgs/warning/7.png"));
+        map.put("wraning8",ImageUtil.getImage("com/neuedu/imgs/warning/8.png"));
+        map.put("wraning9",ImageUtil.getImage("com/neuedu/imgs/warning/9.png"));
+        map.put("wraning10",ImageUtil.getImage("com/neuedu/imgs/warning/10.png"));
+        map.put("wraning11",ImageUtil.getImage("com/neuedu/imgs/warning/w1.png"));
+        map.put("wraning12",ImageUtil.getImage("com/neuedu/imgs/warning/w2.png"));
+        map.put("wraning13",ImageUtil.getImage("com/neuedu/imgs/warning/w3.png"));
+        map.put("wraning14",ImageUtil.getImage("com/neuedu/imgs/warning/w4.png"));
+        map.put("wraning15",ImageUtil.getImage("com/neuedu/imgs/warning/w5.png"));
+        map.put("wraning16",ImageUtil.getImage("com/neuedu/imgs/warning/w6.png"));
+        map.put("wraning17",ImageUtil.getImage("com/neuedu/imgs/warning/w7.png"));
+        map.put("wraning18",ImageUtil.getImage("com/neuedu/imgs/warning/w8.png"));
+        map.put("wraning19",ImageUtil.getImage("com/neuedu/imgs/warning/w9.png"));
+        map.put("wraning20",ImageUtil.getImage("com/neuedu/imgs/warning/w10.png"));
+
+        map.put("start1",ImageUtil.getImage("com/neuedu/imgs/start/start1.png"));
+        map.put("start2",ImageUtil.getImage("com/neuedu/imgs/start/start2.png"));
+        map.put("start3",ImageUtil.getImage("com/neuedu/imgs/start/start3.png"));
+        map.put("start4",ImageUtil.getImage("com/neuedu/imgs/start/start4.png"));
+        map.put("start5",ImageUtil.getImage("com/neuedu/imgs/start/start5.png"));
+        map.put("start6",ImageUtil.getImage("com/neuedu/imgs/start/start6.png"));
+        map.put("start7",ImageUtil.getImage("com/neuedu/imgs/start/start7.png"));
+
+        map.put("beginbg",ImageUtil.getImage("com/neuedu/imgs/beginbg/beginbg.jpg"));
+
 
 
 

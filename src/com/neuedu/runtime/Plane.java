@@ -24,6 +24,8 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
 
     private Image image;
 
+    private int bigBegin = 2;
+
     private List<Image> imageList = new ArrayList<>();
 
     private int speed = FrameConstant.GAME_SPEED*5;
@@ -51,13 +53,8 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
     public void draw(Graphics g) {
         move();
         g.drawImage(image,getX(),getY(),image.getWidth(null)/2,image.getHeight(null)/2,null);
-        if (bigFire){
-            g.drawImage(imageList.get(index1++/10),getX() - 5,getY() - imageList.get(0).getHeight(null),imageList.get(0).getWidth(null),imageList.get(0).getHeight(null),null);
-        }
-        if (index1 >= 40){
-            index1 = 0;
-        }
-        fire();
+
+        fire(g);
         if (fire){
             index++;
             if (index >= 10){
@@ -71,16 +68,19 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
     /**
      * 开火
      */
-    public void fire(){
+    public void fire(Graphics g){
         if (fire && index == 0){
             GameFrame gameFrame = DataStore.get("gameframe");
             gameFrame.bullitList.add(new Bullit(getX() + image.getWidth(null)/3-ImageMap.get("myb1").getWidth(null),
                     getY() - ImageMap.get("myb1").getHeight(null),1));
-        } else if (bigFire && index == 0){
-//            GameFrame gameFrame = DataStore.get("gameframe");
-//            gameFrame.bullitList.add(new Bullit(getX() + image.getWidth(null)/4*3+20-ImageMap.get("myb_2_1").getWidth(null),
-//                    getY() - ImageMap.get("myb_2_1").getHeight(null),2));
-
+        } else if (bigFire){
+            // 绘画闪电
+            if (bigFire){
+                g.drawImage(imageList.get(index1++/15),getX() - 5,getY() - imageList.get(0).getHeight(null)*2,imageList.get(0).getWidth(null),imageList.get(0).getHeight(null)*2,null);
+            }
+            if (index1 >= 60){
+                index1 = 0;
+            }
         }
     }
 
@@ -137,8 +137,9 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
             fire = true;
 //            fire();
         }
-        if (e.getKeyCode() == KeyEvent.VK_J){
+        if (e.getKeyCode() == KeyEvent.VK_J && bigBegin > 0){
             bigFire = true;
+            bigBegin--;
 
         }
     }
@@ -179,11 +180,11 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
                 image.getWidth(null)/2 ,
                 image.getHeight(null)/2);
     }
-
+    // 闪电矩形
     public Rectangle getBigBullitRectangle() {
-        return new Rectangle(getX() ,getY() - imageList.get(0).getHeight(null) ,
+        return new Rectangle(getX() ,getY() - imageList.get(0).getHeight(null)*2 ,
                 imageList.get(0).getWidth(null) ,
-                imageList.get(0).getHeight(null));
+                imageList.get(0).getHeight(null)*2);
     }
 
 
@@ -200,6 +201,8 @@ public class Plane extends BaseSprite implements Moveable, Drawable {
             if (enemyPlane.getRectangle().intersects(this.getBigBullitRectangle()) && bigFire) {
                 enemyPlaneList.remove(enemyPlane);
                 Bullit.addHp = true;
+                Bullit.enemyX = enemyPlane.getX();
+                Bullit.enemyY = enemyPlane.getY();
             }
         }
 

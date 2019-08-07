@@ -102,11 +102,11 @@ public class Bullit extends BaseSprite implements Moveable, Drawable {
                 if (enemyPlane.hp == 0) {
                     enemyPlaneList.remove(enemyPlane);
                     //道具
-                    if (random.nextInt(100) > 90){
+
                         addHp = true;
                         enemyX = enemyPlane.getX();
                         enemyY = enemyPlane.getY();
-                    }
+
 
                     Count.setCount(enemyPlane.type);
                 }
